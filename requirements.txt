@@ -1,4 +1,4 @@
 fastapi
 uvicorn
-fpdf
-python-multipart
+reportlab
+
