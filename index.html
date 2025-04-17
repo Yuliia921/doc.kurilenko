@@ -12,6 +12,7 @@
         <h1>🌸 Док Куриленко</h1>
         <p>Выберите шаблон:</p>
         <button onclick="loadForm('pregnancy')">🤰 УЗИ для беременных</button>
+        <button onclick="loadForm('consultation')">📋 Консультативное заключение</button>
         <div id="formContainer"></div>
     </div>
     <script>
@@ -21,10 +22,9 @@
                 .then(html => {
                     document.getElementById("formContainer").innerHTML = html;
                     const script = document.createElement("script");
-                    script.src = "main.js";
+                    script.src = template === "pregnancy" ? "main.js" : "consultation.js";
                     document.body.appendChild(script);
                 });
-        }
     </script>
 </body>
 </html>
