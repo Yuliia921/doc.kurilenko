@@ -1,1 +1,18 @@
-<!DOCTYPE html><html><head><title>Док Куриленко</title></head><body><h1>🌸 Консультативное заключение</h1></body></html>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>🌸 Консультативное заключение</title>
+</head>
+<body>
+    <h1 style="text-align:center;">🌸 Консультативное заключение</h1>
+    <form action="/generate" method="post">
+        <label>ФИО:</label><br><input name="full_name"><br>
+        <label>Возраст:</label><br><input name="age"><br>
+        <label>Диагноз:</label><br><textarea name="diagnosis"></textarea><br>
+        <label>Обследование:</label><br><textarea name="examination"></textarea><br>
+        <label>Рекомендации:</label><br><textarea name="recommendations"></textarea><br>
+        <button type="submit">Скачать PDF</button>
+    </form>
+</body>
+</html>
