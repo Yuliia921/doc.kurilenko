@@ -1,8 +1,9 @@
 
+import os
+import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
-import os
 
 app = FastAPI()
 
@@ -35,3 +36,8 @@ async def get_styles():
 @app.get("/fonts/DejaVuSans.ttf")
 async def get_font():
     return FileResponse("fonts/DejaVuSans.ttf")
+
+# Запуск сервера вручную (для Render)
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 10000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
