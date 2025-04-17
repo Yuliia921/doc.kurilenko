@@ -2,11 +2,11 @@
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
+import os
 
 app = FastAPI()
 
-# Обслуживаем статические файлы (если понадобится)
-app.mount("/static", StaticFiles(directory="."), name="static")
+app.mount("/", StaticFiles(directory=".", html=True), name="static")
 
 @app.get("/")
 async def get_index():
@@ -31,3 +31,7 @@ async def get_consultation_js():
 @app.get("/styles.css")
 async def get_styles():
     return FileResponse("styles.css")
+
+@app.get("/fonts/DejaVuSans.ttf")
+async def get_font():
+    return FileResponse("fonts/DejaVuSans.ttf")
