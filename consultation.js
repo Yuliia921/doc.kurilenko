@@ -1,33 +1,40 @@
 
-document.getElementById("consultationForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-    const formData = new FormData(this);
+const script = document.createElement("script");
+script.src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
+script.onload = () => {
+    const { jsPDF } = window.jspdf;
 
-    const date = formData.get("date");
-    const fio = formData.get("fio");
-    const age = formData.get("age");
-    const diagnosis = formData.get("diagnosis");
-    const examination = formData.get("examination");
-    const recommendations = formData.get("recommendations");
+    document.getElementById("consultationForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+        const doc = new jsPDF();
+        let y = 10;
 
-    let content = `🌸 Консультативное заключение\n\n`;
-    content += `Дата: ${date}\n`;
-    content += `ФИО: ${fio}\n`;
-    content += `Возраст: ${age}\n`;
-    content += `Диагноз: ${diagnosis}\n\n`;
-    content += `Обследование: ${examination}\n\n`;
-    content += `Рекомендации: ${recommendations}\n\n`;
-    content += `врач акушер-гинеколог Куриленко Юлия Сергеевна`;
+        function writeBlock(label, value) {
+            doc.setFont("Helvetica", "bold");
+            doc.text(label, 10, y);
+            y += 6;
+            doc.setFont("Helvetica", "normal");
+            doc.text(doc.splitTextToSize(value || "-", 180), 10, y);
+            y += doc.getTextDimensions(value || "-").h + 4;
+        }
 
-    const blob = new Blob([content], { type: "application/pdf" });
-    const url = URL.createObjectURL(blob);
+        doc.setFont("Helvetica", "bold");
+        doc.text("🌸 Консультативное заключение", 10, y);
+        y += 10;
 
-    if (confirm("Открыть PDF в новой вкладке? (Отмена — скачать)")) {
-        window.open(url, "_blank");
-    } else {
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = "consultation.pdf";
-        link.click();
-    }
-});
+        writeBlock("Дата", formData.get("date"));
+        writeBlock("ФИО", formData.get("fio"));
+        writeBlock("Возраст", formData.get("age"));
+        writeBlock("Диагноз", formData.get("diagnosis"));
+        writeBlock("Обследование", formData.get("examination"));
+        writeBlock("Рекомендации", formData.get("recommendations"));
+
+        y += 10;
+        doc.setFont("Helvetica", "bold");
+        doc.text("врач акушер-гинеколог Куриленко Юлия Сергеевна", 10, y);
+
+        doc.save("consultation.pdf");
+    });
+};
+document.body.appendChild(script);
