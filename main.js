@@ -5,11 +5,11 @@ script.onload = () => {
     const { jsPDF } = window.jspdf;
 
     window.addEventListener("DOMContentLoaded", () => {
-        const form = document.getElementById("ultrasoundForm");
-        if (form) {
-            form.addEventListener("submit", function (e) {
-                e.preventDefault();
-                const formData = new FormData(this);
+        const button = document.getElementById("generatePdfBtn");
+        if (button) {
+            button.addEventListener("click", () => {
+                const form = document.getElementById("ultrasoundForm");
+                const inputs = form.querySelectorAll("input, textarea");
                 const doc = new jsPDF();
                 let y = 10;
 
@@ -17,11 +17,12 @@ script.onload = () => {
                 doc.text("🌸 УЗИ малого таза (беременность)", 10, y);
                 y += 10;
 
-                for (const [key, value] of formData.entries()) {
-                    const line = key.charAt(0).toUpperCase() + key.slice(1) + ": " + value;
-                    doc.text(doc.splitTextToSize(line, 180), 10, y);
+                inputs.forEach(input => {
+                    const label = input.name.charAt(0).toUpperCase() + input.name.slice(1);
+                    const value = input.value || "-";
+                    doc.text(doc.splitTextToSize(`${label}: ${value}`, 180), 10, y);
                     y += 8;
-                }
+                });
 
                 y += 5;
                 doc.text("врач акушер-гинеколог Куриленко Юлия Сергеевна", 10, y);
