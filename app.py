@@ -36,3 +36,11 @@ async def generate(
     pdf.output(output_path)
 
     return FileResponse(output_path, media_type='application/pdf', filename="consultation.pdf")
+    from fastapi.responses import HTMLResponse
+
+@app.get("/", response_class=HTMLResponse)
+async def read_form():
+    with open("index.html", "r", encoding="utf-8") as f:
+        html_content = f.read()
+    return HTMLResponse(content=html_content)
+
