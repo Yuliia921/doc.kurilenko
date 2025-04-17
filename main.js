@@ -39,8 +39,14 @@ document.getElementById("ultrasoundForm").addEventListener("submit", function (e
     content += `врач акушер-гинеколог Куриленко Юлия Сергеевна`;
 
     const blob = new Blob([content], { type: "application/pdf" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = "uzi_beremennost.pdf";
-    link.click();
+    const url = URL.createObjectURL(blob);
+
+    if (confirm("Открыть PDF в новой вкладке? (Отмена — скачать)")) {
+        window.open(url, "_blank");
+    } else {
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "uzi_beremennost.pdf";
+        link.click();
+    }
 });
