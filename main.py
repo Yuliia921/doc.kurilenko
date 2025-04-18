@@ -1,5 +1,4 @@
-
-from fastapi import FastAPI, UploadFile, Form, File
+from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.responses import JSONResponse
 import smtplib
 from email.message import EmailMessage
@@ -17,7 +16,7 @@ async def send_email(email: str = Form(...), file: UploadFile = File(...)):
         msg["Subject"] = "Ваш протокол из Док Куриленко"
         msg["From"] = smtp_user
         msg["To"] = email
-        msg.set_content("Здравствуйте! Во вложении — ваш протокол в формате PDF.\n\nС уважением,\nКуриленко Ю.С.")
+        msg.set_content("Здравствуйте! Во вложении — ваш протокол в формате PDF.\n\nС уважением,\nврач акушер-гинеколог Куриленко Юлия Сергеевна")
 
         content = await file.read()
         msg.add_attachment(content, maintype="application", subtype="pdf", filename=file.filename)
@@ -26,7 +25,7 @@ async def send_email(email: str = Form(...), file: UploadFile = File(...)):
             smtp.login(smtp_user, smtp_pass)
             smtp.send_message(msg)
 
-        return JSONResponse(content={"message": f"Email sent to {email}"}, status_code=200)
+        return JSONResponse(content={"message": "Письмо успешно отправлено"}, status_code=200)
 
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
