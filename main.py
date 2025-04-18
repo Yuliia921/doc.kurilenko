@@ -3,26 +3,27 @@ from fastapi import FastAPI, UploadFile, Form, File
 from fastapi.responses import JSONResponse
 import smtplib
 from email.message import EmailMessage
+import os
 
 app = FastAPI()
 
 @app.post("/send_email")
 async def send_email(email: str = Form(...), file: UploadFile = File(...)):
     try:
+        smtp_user = os.getenv("SMTP_USER")
+        smtp_pass = os.getenv("SMTP_PASS")
+
         msg = EmailMessage()
         msg["Subject"] = "Ваш протокол из Док Куриленко"
-        msg["From"] = "yuliya-durnina@yandex.ru"
+        msg["From"] = smtp_user
         msg["To"] = email
-        msg.set_content("Здравствуйте! Во вложении — ваш протокол в формате PDF.
-
-С уважением,
-Куриленко Ю.С.")
+        msg.set_content("Здравствуйте! Во вложении — ваш протокол в формате PDF.\n\nС уважением,\nКуриленко Ю.С.")
 
         content = await file.read()
         msg.add_attachment(content, maintype="application", subtype="pdf", filename=file.filename)
 
         with smtplib.SMTP_SSL("smtp.yandex.ru", 465) as smtp:
-            smtp.login("yuliya-durnina@yandex.ru", "oayngkgxvyaylnre")
+            smtp.login(smtp_user, smtp_pass)
             smtp.send_message(msg)
 
         return JSONResponse(content={"message": f"Email sent to {email}"}, status_code=200)
