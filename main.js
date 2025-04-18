@@ -20,7 +20,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const btn = document.getElementById("generatePdfBtn");
   if (!btn) return;
 
-  btn.addEventListener("click", () => {
+  btn.addEventListener("click", async () => {
     const form = document.getElementById("ultrasoundForm");
     const inputs = form.querySelectorAll("input, textarea");
     const { jsPDF } = window.jspdf;
@@ -30,12 +30,10 @@ window.addEventListener("DOMContentLoaded", () => {
     doc.addFont("DejaVuSans.ttf", "DejaVuSans", "normal");
     doc.setFont("DejaVuSans", "normal");
 
-    // Заголовок
     let y = 20;
     doc.setFontSize(20);
     doc.text("🌸 Протокол УЗИ малого таза (беременность)", 105, y, null, null, "center");
 
-    // Содержимое
     y += 15;
     doc.setFontSize(14);
 
@@ -49,26 +47,18 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 
     y += 10;
+    doc.setFontSize(12);
     doc.text("📞 +374 55 98 77 15", 10, y);
-    y += 8;
-    doc.text("врач акушер-гинеколог Куриленко Юлия Сергеевна", 10, y);
+    y += 6;
 
-    doc.save("uzi_beremennost.pdf");
+    // Вставка изображения подписи
+    const img = new Image();
+    img.src = "signature_kurilenko.png";
+    img.onload = () => {
+      doc.addImage(img, "PNG", 10, y, 40, 15);
+      y += 20;
+      doc.text("врач акушер-гинеколог Куриленко Юлия Сергеевна", 10, y);
+      doc.save("uzi_beremennost.pdf");
+    };
   });
 });
-
-document.getElementById("emailForm").addEventListener("submit", async function(e) {
-    e.preventDefault();
-
-    const form = e.target;
-    const formData = new FormData(form);
-
-    const response = await fetch("/send_email", {
-        method: "POST",
-        body: formData
-    });
-
-    const result = await response.json();
-    alert(result.message || result.error);
-});
-
