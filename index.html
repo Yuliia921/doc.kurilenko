@@ -1,20 +1,21 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Док Куриленко</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <title>Отправка PDF пациенту</title>
 </head>
 <body>
-  <div class="container">
-    <h1>🌸 Док Куриленко</h1>
-    <nav>
-      <a href="pregnancy.html">🤰 УЗИ для беременных</a>
-      <a href="consultation.html">📋 Консультативное заключение</a>
-    </nav>
-    <p>Выберите шаблон.</p>
-  </div>
+    <h1>Отправка протокола пациенту</h1>
+    <form id="emailForm" enctype="multipart/form-data">
+        <label>Email пациента:
+            <input type="email" name="email" required>
+        </label><br><br>
+        <label>Выберите PDF файл:
+            <input type="file" name="file" accept="application/pdf" required>
+        </label><br><br>
+        <button type="submit">Отправить</button>
+    </form>
+
+    <script src="main.js"></script>
 </body>
 </html>
