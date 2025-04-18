@@ -1,5 +1,7 @@
+
 from fastapi import FastAPI, UploadFile, File, Form
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 import smtplib
 from email.message import EmailMessage
 import os
@@ -26,15 +28,11 @@ async def send_email(email: str = Form(...), file: UploadFile = File(...)):
             smtp.send_message(msg)
 
         return JSONResponse(content={"message": "Письмо успешно отправлено"}, status_code=200)
-
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=500)
-        from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
 
-app.mount("/", StaticFiles(directory=".", html=True), name="static")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/")
 async def root():
-    return FileResponse("index.html")
-
+    return FileResponse("static/pregnancy.html")
