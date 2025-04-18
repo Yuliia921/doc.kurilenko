@@ -1,31 +1,23 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Отправка PDF пациенту</title>
+    <title>Док Куриленко 🌸</title>
 </head>
 <body>
-    <h1>Отправка протокола пациенту</h1>
+    <h1>Протоколы и отправка</h1>
+
     <form id="emailForm" enctype="multipart/form-data">
         <label>Email пациента:
             <input type="email" name="email" required>
         </label><br><br>
-        <label>Выберите PDF файл:
+        <label>PDF протокол:
             <input type="file" name="file" accept="application/pdf" required>
         </label><br><br>
-        <button type="submit">Отправить</button>
+        <button type="submit">Отправить PDF</button>
     </form>
 
-    <script src="main.js"></script>
+    <script src="/static/main.js"></script>
 </body>
 </html>
-<form id="emailForm" enctype="multipart/form-data">
-    <label>Email пациента:
-        <input type="email" name="email" required>
-    </label><br>
-    <label>PDF протокол:
-        <input type="file" name="file" accept="application/pdf" required>
-    </label><br>
-    <button type="submit">Отправить PDF</button>
-</form>
-<script src="main.js"></script>
