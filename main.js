@@ -14,7 +14,8 @@ window.addEventListener("DOMContentLoaded", () => {
     corpusLuteum: "Желтое тело",
     additional: "Дополнительные данные",
     conclusion: "Заключение",
-    recommendations: "Рекомендации по наблюдению"
+    recommendations: "Рекомендации по наблюдению",
+    email: "Email пациента"
   };
 
   const btn = document.getElementById("generatePdfBtn");
@@ -23,6 +24,7 @@ window.addEventListener("DOMContentLoaded", () => {
   btn.addEventListener("click", async () => {
     const form = document.getElementById("ultrasoundForm");
     const inputs = form.querySelectorAll("input, textarea");
+    const email = form.querySelector("input[name='email']").value;
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
@@ -37,28 +39,38 @@ window.addEventListener("DOMContentLoaded", () => {
     y += 15;
     doc.setFontSize(14);
 
+    const collected = {};
     inputs.forEach(input => {
       const name = input.name;
       const label = fieldLabels[name] || name;
       const value = input.value || "-";
-      const lines = doc.splitTextToSize(`${label}: ${value}`, 180);
-      doc.text(lines, 10, y);
-      y += lines.length * 8;
+      collected[name] = value;
+      if (name !== "email") {
+        const lines = doc.splitTextToSize(`${label}: ${value}`, 180);
+        doc.text(lines, 10, y);
+        y += lines.length * 8;
+      }
     });
 
     y += 10;
     doc.setFontSize(12);
     doc.text("📞 +374 55 98 77 15", 10, y);
     y += 6;
+    doc.text("врач акушер-гинеколог Куриленко Юлия Сергеевна", 10, y);
 
-    // Вставка изображения подписи
-    const img = new Image();
-    img.src = "signature_kurilenko.png";
-    img.onload = () => {
-      doc.addImage(img, "PNG", 10, y, 40, 15);
-      y += 20;
-      doc.text("врач акушер-гинеколог Куриленко Юлия Сергеевна", 10, y);
-      doc.save("uzi_beremennost.pdf");
-    };
+    const pdf = doc.output("blob");
+
+    const formData = new FormData();
+    formData.append("file", pdf, "uzi_beremennost.pdf");
+    formData.append("email", email);
+
+    fetch("/send_email", {
+      method: "POST",
+      body: formData,
+    }).then(() => {
+      alert("Письмо отправлено на " + email);
+    }).catch(() => {
+      alert("Не удалось отправить письмо");
+    });
   });
 });
