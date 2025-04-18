@@ -14,17 +14,15 @@ window.addEventListener("DOMContentLoaded", () => {
     corpusLuteum: "Желтое тело",
     additional: "Дополнительные данные",
     conclusion: "Заключение",
-    recommendations: "Рекомендации по наблюдению",
-    email: "Email пациента"
+    recommendations: "Рекомендации по наблюдению"
   };
 
   const btn = document.getElementById("generatePdfBtn");
   if (!btn) return;
 
-  btn.addEventListener("click", async () => {
+  btn.addEventListener("click", () => {
     const form = document.getElementById("ultrasoundForm");
     const inputs = form.querySelectorAll("input, textarea");
-    const email = form.querySelector("input[name='email']").value;
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
@@ -32,60 +30,29 @@ window.addEventListener("DOMContentLoaded", () => {
     doc.addFont("DejaVuSans.ttf", "DejaVuSans", "normal");
     doc.setFont("DejaVuSans", "normal");
 
+    // Заголовок
     let y = 20;
     doc.setFontSize(20);
     doc.text("🌸 Протокол УЗИ малого таза (беременность)", 105, y, null, null, "center");
 
+    // Содержимое
     y += 15;
     doc.setFontSize(14);
 
-    const collected = {};
     inputs.forEach(input => {
       const name = input.name;
       const label = fieldLabels[name] || name;
       const value = input.value || "-";
-      collected[name] = value;
-      if (name !== "email") {
-        const lines = doc.splitTextToSize(`${label}: ${value}`, 180);
-        doc.text(lines, 10, y);
-        y += lines.length * 8;
-      }
+      const lines = doc.splitTextToSize(`${label}: ${value}`, 180);
+      doc.text(lines, 10, y);
+      y += lines.length * 8;
     });
 
     y += 10;
-    doc.setFontSize(12);
     doc.text("📞 +374 55 98 77 15", 10, y);
-    y += 6;
+    y += 8;
     doc.text("врач акушер-гинеколог Куриленко Юлия Сергеевна", 10, y);
 
-    const pdf = doc.output("blob");
-
-    const formData = new FormData();
-    formData.append("file", pdf, "uzi_beremennost.pdf");
-    formData.append("email", email);
-
-    fetch("/send_email", {
-      method: "POST",
-      body: formData,
-    }).then(() => {
-      alert("Письмо отправлено на " + email);
-    }).catch(() => {
-      alert("Не удалось отправить письмо");
-    });
+    doc.save("uzi_beremennost.pdf");
   });
-});
-// Отправка формы с PDF на email
-document.getElementById("emailForm").addEventListener("submit", async function(e) {
-    e.preventDefault();
-
-    const form = e.target;
-    const formData = new FormData(form);
-
-    const response = await fetch("/send_email", {
-        method: "POST",
-        body: formData
-    });
-
-    const result = await response.json();
-    alert(result.message || result.error);
 });
