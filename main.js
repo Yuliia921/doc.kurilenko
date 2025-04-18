@@ -1,3 +1,4 @@
+
 window.addEventListener("DOMContentLoaded", () => {
   const btn = document.getElementById("generatePdfBtn");
   if (!btn) return;
@@ -7,11 +8,12 @@ window.addEventListener("DOMContentLoaded", () => {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
     let y = 10;
+    doc.setFont("helvetica");
     doc.setFontSize(14);
     doc.text("🌸 УЗИ малого таза (беременность)", 10, y);
     y += 10;
     inputs.forEach(input => {
-      const label = input.name.charAt(0).toUpperCase() + input.name.slice(1);
+      const label = input.previousElementSibling?.textContent || input.name;
       const value = input.value || "-";
       doc.text(doc.splitTextToSize(`${label}: ${value}`, 180), 10, y);
       y += 8;
