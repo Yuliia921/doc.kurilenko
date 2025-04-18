@@ -26,7 +26,7 @@
                 .then(html => {
                     document.getElementById("formContainer").innerHTML = html;
                     const script = document.createElement("script");
-                    script.src = "main.js";
+                    script.src = template === "pregnancy" ? "main.js" : "consultation.js";
                     document.body.appendChild(script);
                 });
         }
