@@ -32,13 +32,11 @@ window.addEventListener("DOMContentLoaded", () => {
 
     // Заголовок
     let y = 20;
-    doc.setFontSize(18);
-    doc.setFont("DejaVuSans", "bold");
-    doc.text("🌸 ПРОТОКОЛ УЗИ МАЛОГО ТАЗА (БЕРЕМЕННОСТЬ)", 105, y, null, null, "center");
+    doc.setFontSize(20);
+    doc.text("🌸 Протокол УЗИ малого таза (беременность)", 105, y, null, null, "center");
 
     // Содержимое
     y += 15;
-    doc.setFont("DejaVuSans", "normal");
     doc.setFontSize(14);
 
     inputs.forEach(input => {
