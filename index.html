@@ -1,41 +1,19 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌸 Док Куриленко</title>
-    <link rel="stylesheet" href="styles.css">
-    <script>
-        if (window.location.search) {
-            window.history.replaceState({}, document.title, window.location.pathname);
-        }
-    </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Док Куриленко</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>🌸 Док Куриленко</h1>
-        <p>Выберите шаблон:</p>
-        <button onclick="loadForm('pregnancy')">🤰 УЗИ для беременных</button>
-        <button onclick="loadForm('consultation')">📋 Консультативное заключение</button>
-        <div id="formContainer"></div>
-    </div>
-    <script>
-        function loadForm(template) {
-            fetch(`${template}.html`)
-                .then(response => response.text())
-                .then(html => {
-                    document.getElementById("formContainer").innerHTML = html;
-                    const script = document.createElement("script");
-                    script.src = template === "pregnancy" ? "main.js" : "consultation.js";
-                    document.body.appendChild(script);
-                });
-        }
-
-        // Загружаем УЗИ по умолчанию
-        window.addEventListener("DOMContentLoaded", () => {
-            loadForm("pregnancy");
-        });
-    </script>
+  <div class="container">
+    <h1>🌸 Док Куриленко</h1>
+    <nav>
+      <a href="pregnancy.html">🤰 УЗИ для беременных</a>
+      <a href="consultation.html">📋 Консультативное заключение</a>
+    </nav>
+    <p>Выберите шаблон.</p>
+  </div>
 </body>
 </html>

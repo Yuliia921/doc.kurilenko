@@ -1,18 +1,21 @@
-
-<div id="ultrasoundForm" class="form-block">
-    <label>ФИО: <input type="text" name="fio" required></label>
-    <label>Последняя менструация: <input type="date" name="lmp"></label>
-    <label>Матка: <input type="text" name="uterus"></label>
-    <label>Плодное яйцо (мм): <input type="text" name="gestationalSac"></label>
-    <label>КТР (мм): <input type="text" name="crl"></label>
-    <label>Срок (нед): <input type="text" name="term"></label>
-    <label>Желточный мешок (мм): <input type="text" name="yolkSac"></label>
-    <label>Сердцебиение: <input type="text" name="heartbeat"></label>
-    <label>ЧСС (уд/мин): <input type="text" name="hr"></label>
-    <label>Хорион: <input type="text" name="chorion"></label>
-    <label>Желтое тело (мм): <input type="text" name="corpusLuteum"></label>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🤰 УЗИ</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="main.js" defer></script>
+</head>
+<body>
+  <div class="container" id="ultrasoundForm">
+    <h2>🤰 УЗИ малого таза (беременность)</h2>
+    <label>ФИО: <input name="fio"/></label>
+    <label>Матка: <input name="uterus"/></label>
     <label>Дополнение: <textarea name="additional"></textarea></label>
     <label>Заключение: <textarea name="conclusion"></textarea></label>
-    <label>Рекомендации: <textarea name="recommendations"></textarea></label>
     <button id="generatePdfBtn">📄 Скачать PDF</button>
-</div>
+  </div>
+</body>
+</html>
