@@ -1,5 +1,22 @@
 
 window.addEventListener("DOMContentLoaded", () => {
+  const fieldLabels = {
+"fio": "ФИО пациентки",
+"lmp": "Дата последней менструации",
+"uterus": "Положение и форма матки",
+"gestationalSac": "Плодное яйцо (мм)",
+"crl": "КТР (мм)",
+"term": "Срок беременности (нед)",
+"yolkSac": "Желточный мешок (мм)",
+"heartbeat": "Сердцебиение",
+"hr": "Частота сердцебиения (ЧСС)",
+"chorion": "Расположение хориона",
+"corpusLuteum": "Желтое тело",
+"additional": "Дополнительные данные",
+"conclusion": "Заключение",
+"recommendations": "Рекомендации по наблюдению"
+};
+
   const btn = document.getElementById("generatePdfBtn");
   if (!btn) return;
 
@@ -23,7 +40,8 @@ window.addEventListener("DOMContentLoaded", () => {
     y += 10;
 
     inputs.forEach(input => {
-      const label = input.previousElementSibling?.textContent?.trim() || input.name;
+      const name = input.name;
+      const label = fieldLabels[name] || name;
       const value = input.value || "-";
       const lines = doc.splitTextToSize(`${label}: ${value}`, 180);
       doc.text(lines, 10, y);
