@@ -17,6 +17,7 @@
         <h1>🌸 Док Куриленко</h1>
         <p>Выберите шаблон:</p>
         <button onclick="loadForm('pregnancy')">🤰 УЗИ для беременных</button>
+        <button onclick="loadForm('consultation')">📋 Консультативное заключение</button>
         <div id="formContainer"></div>
     </div>
     <script>
@@ -30,6 +31,11 @@
                     document.body.appendChild(script);
                 });
         }
+
+        // Загружаем УЗИ по умолчанию
+        window.addEventListener("DOMContentLoaded", () => {
+            loadForm("pregnancy");
+        });
     </script>
 </body>
 </html>
